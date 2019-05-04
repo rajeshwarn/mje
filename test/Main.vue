@@ -1,6 +1,5 @@
 <template>
   <div>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async @load="setup"></script>
     <math>
       <msqrt>
         <mrow>
@@ -17,10 +16,13 @@
 
 <script>
   export default {
-    methods: {
-      setup() {
-        console.log('ready to go.')
+    created() {
+      const mathJaxScript = document.createElement('script')
+      mathJaxScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML'
+      mathJaxScript.onload = () => {
+        console.log('opa!')
       }
+      document.body.appendChild(mathJaxScript)
     }
   }
 </script>
