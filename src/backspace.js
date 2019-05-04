@@ -6,15 +6,14 @@ import del from './del'
  */
 export default function backspace(source) {
   switch (source.tagName) {
-    case 'mrow': {
-      return del(source.lastElementChild || source.parentNode)
+  case 'mrow':
+    return del(source.lastElementChild || source.parentNode)
+
+  case 'math':
+    if (source.lastElementChild) {
+      return del(source.lastElementChild)
     }
-    case 'math': {
-      if (source.lastElementChild) {
-        return del(source.lastElementChild)
-      }
-      return false
-    }
+    return false
   }
   if (!source.previousElementSibling) {
     return del(source.parentNode)
