@@ -1,17 +1,23 @@
 /**
  *    
- * @param {HTMLElement} source 
+ * @param {HTMLElement} current 
  */
-export default function del(source) {
-  switch (source.tagName) {
-  case 'mrow':
-    return del(source.parentNode)
+export default function del(value, current) {
+  const parent = current.parentNode
   
-  case 'math':
-    return false
-  
-  default:
-    source.parentElement.removeChild(source)
+  switch (current.tagName) {
+  case 'MROW':
+    return del(value, parent)
+
+  case 'MATH':
+    return current
   }
-  return true
+
+  const to = (
+    current.nextElementSibling || parent
+  )
+
+  parent.removeChild(current)
+
+  return to
 }

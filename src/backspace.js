@@ -2,21 +2,25 @@ import del from './del'
 
 /**
  * 
- * @param {HTMLElement} source 
+ * @param {HTMLElement} current 
  */
-export default function backspace(source) {
-  switch (source.tagName) {
-  case 'mrow':
-    return del(source.lastElementChild || source.parentNode)
+export default function backspace(value, current) {
+  const parent = current.parentNode
+  const previous = current.previousElementSibling
 
-  case 'math':
-    if (source.lastElementChild) {
-      return del(source.lastElementChild)
+  switch (current.tagName) {
+  case 'MROW':
+  case 'MATH':
+    if (current.lastElementChild) {
+      return del(value, current.lastElementChild)
     }
-    return false
+    if (current.tagName === 'MATH') {
+      return current
+    }
+    return del(value, parent)
   }
-  if (!source.previousElementSibling) {
-    return del(source.parentNode)
+  if (!previous && parent.tagName === 'MATH') {
+    return current
   }
-  return del(source.previousElementSibling)
+  return del(value, previous || parent)
 }
