@@ -5,8 +5,12 @@
  */
 export default function add(what, source) {
   switch (source.tagName) {
-  case 'mrow':
-  case 'math':
+  case 'MROW':
+  case 'MATH':
+    if (!source.children.length) {
+      source.appendChild(what)
+      return true
+    }
     source.insertBefore(what, source.lastElementChild.nextSibling)
     return true
 
