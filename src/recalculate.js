@@ -1,26 +1,40 @@
+import each from './each'
+
 export default function recalculate(math) {
-  const positions = []
+  const path = []
+  let previous = null
   each(math, source => {
     const element = document.getElementById(source.id)
     const rect = element.getBoundingClientRect();
+
+    if (path.length) {
+      path[path.length - 1].next = source
+    }
+
     switch (source.tagName) {
-    case 'math':
-    case 'mrow':
-      return positions.push({
+    case 'MATH':
+    case 'MROW':
+      path.push({
         x: rect.width + rect.left,
         y: rect.top,
         height: rect.height,
-        source
+        source,
+        previous
       })
+      previous = source
+      return
 
     default:
-      return positions.push({
+      path.push({
         x: rect.left,
         y: rect.top,
         height: rect.height,
-        source
+        source,
+        previous
       })
+      previous = source
+      return
     }
   })
-  return positions
+  return path
 }
