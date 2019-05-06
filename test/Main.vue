@@ -22,8 +22,12 @@
 </script>
 
 <style>
-  .mje-input {
+  .mje-container {
     padding: 1em;
+  }
+
+  .mje-container * {
+    outline: none !important;
   }
 
   .mje-cursor {
