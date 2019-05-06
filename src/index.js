@@ -14,19 +14,49 @@ export default function mje(target) {
   let pos = null
   let path = null
 
-  const update = to => {
+  const draw = () => {
+    pos = path.find(predicate => {
+      return predicate.source === current
+    })
+    ui.draw(pos)
+  }
+
+  const update = (to, math) => {
     if (to) {
       current = to
     }
-    ui.value(display(math)).then(() => {
-      path = recalculate(math)
-      pos = path.find(predicate => predicate.source === current)
-      ui.draw(pos)
-    })
+    if (math) {
+      ui.value(display(math)).then(() => {
+        path = recalculate(math)
+        draw()
+      })
+    }
+    else {
+      draw()
+    }
   }
+
+  ui.click((x, y) => {
+    let smaller = Infinity
+    let candidate = null
+    for (const data of path) {
+      const d = Math.sqrt(
+        Math.pow(data.x - x, 2) 
+        + Math.pow(data.y - y, 2)
+      )
+      if (smaller === null || smaller > d) {
+        smaller = d
+        candidate = data
+      }
+    }
+    if (!candidate || candidate.source === current) {return}
+    update(candidate.source)
+  })
   
+  // Remove delay for math rendering.
+  MathJax.Hub.processSectionDelay = 0
   target.appendChild(ui.input())
-  update()
+  update(math, math)
   
   return {
     path() {
@@ -52,7 +82,7 @@ export default function mje(target) {
     number(n) {
       const mn = MathJax.HTML.Element('mn', { id: id() }, [n])
       add(mn, current)
-      update()
+      update(null, math)
     },
 
     sqrt() {
@@ -60,7 +90,7 @@ export default function mje(target) {
       const mrow = MathJax.HTML.Element('mrow', { id: id() })
       msqrt.appendChild(mrow)
       add(msqrt, current)
-      update(mrow)
+      update(mrow, math)
     }
   }
 }
