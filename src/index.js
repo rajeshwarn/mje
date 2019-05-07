@@ -11,6 +11,7 @@ export default function mje(target) {
   const api = {}
   /** @type {HTMLElement} Value of this instance. */
   const math = MathJax.HTML.Element('math', { id: id() })
+  /** Create the user interface of this instance. */
   const ui = view()
 
   /** @type {HTMLElement} Current editor cursor element. */
