@@ -8,7 +8,7 @@ import id from './id'
 
 export default function mje(target) {
   const math = MathJax.HTML.Element('math', { id: id() })
-  const ui = dom()
+  const ui = view()
   let current = math
   let pos = null
   let path = null
@@ -25,14 +25,12 @@ export default function mje(target) {
       current = to
     }
     if (math) {
-      ui.value(display(math)).then(() => {
+      return ui.value(display(math)).then(() => {
         path = recalculate(math)
         draw()
       })
     }
-    else {
-      draw()
-    }
+    return draw()
   }
 
   ui.click((x, y) => {
