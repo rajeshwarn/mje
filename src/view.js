@@ -1,58 +1,95 @@
 export default function view() {
   const container = MathJax.HTML.Element('div', { className: 'mje-container' })
   const cursor = MathJax.HTML.Element('div', { className: 'mje-cursor' })
-  const input = MathJax.HTML.Element('div', { className: 'mje-input' })
+  /** @type {HTMLElement} */
+  const input = MathJax.HTML.Element('input', { className: 'mje-input' })
 
   let jax = null
   let focused = false
   let hover = false
   let events = {
-    click: []
+    click: null,
+    input: null,
+    code: null
   }
   
-  document.body.appendChild(cursor)
-
-  container.addEventListener('click', e => {
-    console.log(e)
-    focused = true
-    for (const handler of events.click) {
-      handler(e.clientX, e.clientY)
-    }
-    input.focus()
-  })
-
-  container.addEventListener('mouseenter', e => {
-    hover = true
-  })
-
-  container.addEventListener('mouseleave', e => {
-    hover = false
-  })
-
-  input.addEventListener('blur', () => {
-    if (!hover) {
-      focused = false
+  const update = () => {
+    if (focused) {
+      container.classList.add('focused')
     }
     else {
-      input.focus()
+      container.classList.remove('focused')
     }
-  })
+  }
+
+  const handleOutsideClick = () => {
+    console.log(hover)
+    if (!hover) {
+      focused = false
+      input.blur()
+      return update()
+    }
+  }
+
+  const handleInsideClick = e => {
+    focused = true
+    events.click(e.clientX, e.clientY)
+    input.focus()
+    update()
+  }
+
+  const handleMouseEnter = () => {
+    hover = true
+  }
+
+  const handleMouseLeave = () => {
+    hover = false
+  }
+
+  const handleBlur = () => {
+    if (!hover) {
+      focused = false
+      return update()
+    }
+    input.focus()
+    return update()
+  }
+
+  const handleInput = () => {
+    if (!input.value.length) {return}
+    events.input(input.value)
+    input.value = ''
+  }
+
+  const handleKeydown = e => {
+    events.code(e.keyCode)
+  }
+
+  document.body.appendChild(cursor)
+  document.body.appendChild(input)
+
+  document.addEventListener('click', handleOutsideClick)
+  container.addEventListener('click', handleInsideClick)
+  container.addEventListener('mouseenter', handleMouseEnter)
+  container.addEventListener('mouseleave', handleMouseLeave)
+  input.addEventListener('blur', handleBlur)
+  input.addEventListener('keydown', handleInput)
+  input.addEventListener('keyup', handleInput)
+  input.addEventListener('keydown', handleKeydown)
 
   return {
-    input() {
+    events,
+
+    container() {
       return container
     },
 
-    click(handler) {
-      events.click.push(handler)
-    },
-
-    value(newValue) {
+    value(val) {
       return new Promise(resolve => {
         if (jax) {
-          return jax.Text(newValue, resolve)
+          return jax.Text(val, resolve)
         }
-        container.innerHTML = newValue
+        container.innerHTML = val
         MathJax.Hub.Queue(['Typeset', MathJax.Hub, container, () => {
           jax = MathJax.Hub.getAllJax(input)[0]
           resolve()

@@ -33,7 +33,7 @@ export default function mje(target) {
     return draw()
   }
 
-  ui.click((x, y) => {
+  ui.events.click = (x, y) => {
     let smaller = Infinity
     let candidate = null
     for (const data of path) {
@@ -48,14 +48,33 @@ export default function mje(target) {
     }
     if (!candidate || candidate.source === current) {return}
     update(candidate.source)
-  })
+  }
+
+  ui.events.input = (char) => {
+    if (char.match(/\d/)) {
+      return api.number(char)
+    }
+    else if (char.match(/[a-zA-Z]/)) {
+      return api.identifier(char)
+    }
+  }
+
+  ui.events.code = (code) => {
+    console.log(code)
+    switch (code) {
+    case 8: return api.backspace()
+    case 37: return api.left()
+    case 39: return api.right()
+    case 46: return api.del()
+    }
+  }
   
   // Remove delay for math rendering.
   MathJax.Hub.processSectionDelay = 0
-  target.appendChild(ui.input())
+  target.appendChild(ui.container())
   update(math, math)
   
-  return {
+  const api = {
     path() {
       return path
     },
@@ -69,16 +88,22 @@ export default function mje(target) {
     },
 
     del() {
-      update(del(math, current))
+      update(del(math, current), math)
     },
 
     backspace() {
-      update(backspace(math, current))
+      update(backspace(math, current), math)
     },
 
     number(n) {
       const mn = MathJax.HTML.Element('mn', { id: id() }, [n])
       add(mn, current)
+      update(null, math)
+    },
+
+    identifier(c) {
+      const mi = MathJax.HTML.Element('mi', { id: id() }, [c])
+      add(mi, current)
       update(null, math)
     },
 
@@ -90,4 +115,6 @@ export default function mje(target) {
       update(mrow, math)
     }
   }
+
+  return api
 }
