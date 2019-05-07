@@ -22,8 +22,17 @@
 </script>
 
 <style>
+  body {
+    font-size: 32px;
+  }
+
   .mje-container {
+    border: 1px solid #ccc;
     padding: 1em;
+  }
+
+  .mje-container.focused {
+    border-color: #007fff;
   }
 
   .mje-container * {
