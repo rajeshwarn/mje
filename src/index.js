@@ -1,10 +1,9 @@
-import each from './each'
 import del from './del'
 import backspace from './backspace'
 import display from './display'
 import add from './add'
 import recalculate from './recalculate'
-import dom from './dom'
+import view from './view'
 import id from './id'
 
 export default function mje(target) {

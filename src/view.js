@@ -1,4 +1,4 @@
-export default function ui() {
+export default function view() {
   const container = MathJax.HTML.Element('div', { className: 'mje-container' })
   const cursor = MathJax.HTML.Element('div', { className: 'mje-cursor' })
   const input = MathJax.HTML.Element('div', { className: 'mje-input' })
