@@ -44,4 +44,12 @@
     position: absolute;
     width: 1px;
   }
+
+  .mje-input {
+    opacity: 0;
+    height: 0;
+    width: 0;
+    padding: 0;
+    border: none;
+  }
 </style>
