@@ -3,6 +3,7 @@ import backspace from './backspace'
 import del from './del'
 import display from './display'
 import id from './id'
+import operators from './operators'
 import recalculate from './recalculate'
 import view from './view'
 
@@ -85,6 +86,12 @@ export default function mje(target) {
     update(null, math)
   }
 
+  api.operator = (c) => {
+    const mo = MathJax.HTML.Element('mo', { id: id() }, [c])
+    add(mo, current)
+    update(null, math)
+  }
+
   api.sqrt = () => {
     const msqrt = MathJax.HTML.Element('msqrt', { id: id() })
     const mrow = MathJax.HTML.Element('mrow', { id: id() })
@@ -129,6 +136,9 @@ export default function mje(target) {
     }
     else if (char.match(/[a-zA-Z]/)) {
       return api.identifier(char)
+    }
+    else if (operators.hasOwnProperty(char)) {
+      return api.operator(operators[char])
     }
   }
 
