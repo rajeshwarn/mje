@@ -6,6 +6,7 @@ import each from './each'
  * @param {HTMLElement} math 
  */
 export default function recalculate(math) {
+  const cache = {}
   /** @type {Array} */
   const path = []
   /** @type {HTMLElement} */
@@ -13,16 +14,34 @@ export default function recalculate(math) {
   /** @type {Object} */
   let prevData = null
 
+  const bounding = (element, id) => {
+    if (!element) {return}
+    if (!cache.hasOwnProperty(id)) {
+      cache[id] = element.getBoundingClientRect()
+    }
+    return cache[id]
+  }
+
   each(math, source => {
     const element = document.getElementById(source.id)
-    const rect = element.getBoundingClientRect()
     const has = source.children.length
     const last = element.lastElementChild
+    const parent = source.parentNode
+    const rect = bounding(element, source.id)
+    let parentElement
+    let parentRect
     const data = {
       y: rect.top,
       height: rect.height,
       source,
       previous
+    }
+
+    if (parent && source.tagName !== 'MROW') {
+      parentElement = document.getElementById(parent.id)
+      parentRect = bounding(parentElement, parent.id)
+      data.y = parentRect.top
+      data.height = parentElement.clientHeight
     }
 
     if (prevData) {
