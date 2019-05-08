@@ -52,4 +52,8 @@
     padding: 0;
     border: none;
   }
+
+  .mje-quote {
+    color: #ccc;
+  }
 </style>
