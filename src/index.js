@@ -92,6 +92,16 @@ export default function mje(target) {
     update(null, math)
   }
 
+  api.frac = () => {
+    const mfrac = MathJax.HTML.Element('mfrac', { id: id() })
+    const mrow1 = MathJax.HTML.Element('mrow', { id: id () })
+    const mrow2 = MathJax.HTML.Element('mrow', { id: id() })
+    mfrac.appendChild(mrow1)
+    mfrac.appendChild(mrow2)
+    add(mfrac, current)
+    update(mrow1, math)
+  }
+
   api.sqrt = () => {
     const msqrt = MathJax.HTML.Element('msqrt', { id: id() })
     const mrow = MathJax.HTML.Element('mrow', { id: id() })
