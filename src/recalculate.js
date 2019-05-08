@@ -16,7 +16,10 @@ export default function recalculate(math) {
   each(math, source => {
     const element = document.getElementById(source.id)
     const rect = element.getBoundingClientRect()
+    const has = source.children.length
+    const last = element.lastElementChild
     const data = {
+      y: rect.top,
       height: rect.height,
       source,
       previous
@@ -28,14 +31,15 @@ export default function recalculate(math) {
 
     switch (source.tagName) {
     case 'MATH':
+      data.x = (has ? rect.width : 0) + rect.left
+      break
+
     case 'MROW':
-      data.x = rect.width + rect.left
-      data.y = rect.top
+      data.x = (has ? rect.width - last.clientWidth : 0) + rect.left
       break
 
     default:
       data.x = rect.left
-      data.y = rect.top
       break
     }
 
