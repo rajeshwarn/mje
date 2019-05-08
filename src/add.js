@@ -1,7 +1,8 @@
 /**
- * 
+ * Add an element next to the current cursor positon.
  * @param {HTMLElement} what 
  * @param {HTMLElement} source 
+ * @return {Boolean}
  */
 export default function add(what, source) {
   switch (source.tagName) {

@@ -1,6 +1,7 @@
 /**
- *    
+ * Perform a delete relative to current cursor position.
  * @param {HTMLElement} current 
+ * @return {HTMLElement} New cursor position.
  */
 export default function del(value, current) {
   const parent = current.parentNode

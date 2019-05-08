@@ -1,8 +1,9 @@
 import del from './del'
 
 /**
- * 
+ * Perform a backspace deletion relative to current cursor position.
  * @param {HTMLElement} current 
+ * @return {HTMLElement} New cursor position.
  */
 export default function backspace(value, current) {
   const parent = current.parentNode
