@@ -110,6 +110,36 @@ export default function mje(target) {
     update(mrow, math)
   }
 
+  api.root = () => {
+    const mroot = MathJax.HTML.Element('mroot', { id: id() })
+    const mrow1 = MathJax.HTML.Element('mrow', { id: id () })
+    const mrow2 = MathJax.HTML.Element('mrow', { id: id() })
+    mroot.appendChild(mrow1)
+    mroot.appendChild(mrow2)
+    add(mroot, current)
+    update(mrow1, math)
+  }
+
+  api.sup = () => {
+    const msup = MathJax.HTML.Element('msup', { id: id() })
+    const mrow1 = MathJax.HTML.Element('mrow', { id: id () })
+    const mrow2 = MathJax.HTML.Element('mrow', { id: id() })
+    msup.appendChild(mrow1)
+    msup.appendChild(mrow2)
+    add(msup, current)
+    update(mrow1, math)
+  }
+
+  api.sub = () => {
+    const msub = MathJax.HTML.Element('msub', { id: id() })
+    const mrow1 = MathJax.HTML.Element('mrow', { id: id () })
+    const mrow2 = MathJax.HTML.Element('mrow', { id: id() })
+    msub.appendChild(mrow1)
+    msub.appendChild(mrow2)
+    add(msub, current)
+    update(mrow1, math)
+  }
+
   // UI functions
 
   /**
