@@ -152,13 +152,16 @@ export default function mje(target) {
     let smaller = Infinity
     let candidate = null
     for (const data of path) {
-      const d = Math.sqrt(
-        Math.pow(data.x - x, 2) 
-        + Math.pow(data.y - y, 2)
-      )
-      if (smaller === null || smaller > d) {
-        smaller = d
-        candidate = data
+      for (let py = data.y; py < (data.y + data.height); py += 0.1) {
+        const d = Math.sqrt(
+          Math.pow(data.x - x, 2) 
+          + Math.pow(data.y - y, 2)
+        )
+        if (smaller === null || smaller > d) {
+          smaller = d
+          candidate = data
+          break
+        }
       }
     }
     if (!candidate || candidate.source === current) {return}
