@@ -14,11 +14,7 @@ export default function del(value, current) {
     return current
   }
 
-  const to = (
-    current.nextElementSibling || parent
-  )
-
   parent.removeChild(current)
-
-  return to
+  
+  return current.nextElementSibling || parent
 }
