@@ -139,6 +139,18 @@ export default function mje(target) {
     update(mrow1, math)
   }
 
+  api.subsup = () => {
+    const msubsup = MathJax.HTML.Element('msubsup')
+    const mrow1 = MathJax.HTML.Element('mrow')
+    const mrow2 = MathJax.HTML.Element('mrow')
+    const mrow3 = MathJax.HTML.Element('mrow')
+    msubsup.appendChild(mrow1)
+    msubsup.appendChild(mrow2)
+    msubsup.appendChild(mrow3)
+    add(msubsup, current)
+    update(mrow1, math)
+  }
+
   // UI functions
 
   /**
