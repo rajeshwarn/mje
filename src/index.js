@@ -73,19 +73,19 @@ export default function mje(target) {
     update(backspace(math, current), math)
   }
 
-  api.number = (n) => {
+  api.number = c => {
     const mn = MathJax.HTML.Element('mn', null, [n])
     add(mn, current)
     update(null, math)
   }
 
-  api.identifier = (c) => {
+  api.identifier = c => {
     const mi = MathJax.HTML.Element('mi', null, [c])
     add(mi, current)
     update(null, math)
   }
 
-  api.operator = (c) => {
+  api.operator = c => {
     const mo = MathJax.HTML.Element('mo', null, [c])
     add(mo, current)
     update(null, math)

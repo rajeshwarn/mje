@@ -26,7 +26,9 @@ export default function display(math) {
     case 'MROW':
     case 'MATH':
       if (!source.children.length) {
-        source.appendChild(MathJax.HTML.Element('mi', { className: 'mje-quote' }, ['?']))
+        source.appendChild(
+          MathJax.HTML.Element('mi', { className: 'mje-quote' }, ['?'])
+        )
       }
       if (source.tagName !== 'MATH') {
         source.appendChild(mspace())
