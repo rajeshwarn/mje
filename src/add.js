@@ -1,3 +1,5 @@
+import lower from './lower'
+
 /**
  * Add an element next to the current cursor positon.
  * @param {HTMLElement} what 
@@ -5,9 +7,9 @@
  * @return {Boolean}
  */
 export default function add(what, source) {
-  switch (source.tagName) {
-  case 'MROW':
-  case 'MATH':
+  switch (lower(source.tagName)) {
+  case 'mrow':
+  case 'math':
     if (!source.children.length) {
       source.appendChild(what)
       return true

@@ -1,3 +1,5 @@
+import lower from './lower'
+
 /**
  * Perform a delete relative to current cursor position.
  * @param {HTMLElement} current 
@@ -6,15 +8,16 @@
 export default function del(value, current) {
   const parent = current.parentNode
   
-  switch (current.tagName) {
-  case 'MROW':
+  switch (lower(current.tagName)) {
+  case 'mrow':
     return del(value, parent)
 
-  case 'MATH':
+  case 'math':
     return current
   }
 
+  const to = current.nextElementSibling || parent
   parent.removeChild(current)
   
-  return current.nextElementSibling || parent
+  return to
 }

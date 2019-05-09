@@ -2,6 +2,7 @@ import add from './add'
 import backspace from './backspace'
 import del from './del'
 import display from './display'
+import each from './each'
 import operators from './operators'
 import recalculate from './recalculate'
 import view from './view'
@@ -10,7 +11,7 @@ export default function mje(target) {
   /** @type {Object} Public API of the library. */
   const api = {}
   /** @type {HTMLElement} Value of this instance. */
-  const math = MathJax.HTML.Element('math')
+  let math = MathJax.HTML.Element('math')
   /** Create the user interface of this instance. */
   const ui = view()
 
@@ -73,7 +74,7 @@ export default function mje(target) {
     update(backspace(math, current), math)
   }
 
-  api.number = c => {
+  api.number = n => {
     const mn = MathJax.HTML.Element('mn', null, [n])
     add(mn, current)
     update(null, math)
@@ -149,6 +150,20 @@ export default function mje(target) {
     msubsup.appendChild(mrow3)
     add(msubsup, current)
     update(mrow1, math)
+  }
+
+  api.get = () => {
+    const output = math.cloneNode(true)
+    each(output, source => source.removeAttribute('id'))
+    return output.outerHTML
+  }
+
+  api.set = (input) => {
+    const parser = new DOMParser
+    const doc = parser.parseFromString(input, 'text/html')
+    math = doc.body.firstElementChild
+    math.parentNode.removeChild(math)
+    update(math, math)
   }
 
   // UI functions

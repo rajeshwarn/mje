@@ -1,5 +1,6 @@
 import each from './each'
 import id from './id'
+import lower from './lower'
 
 /**
  * Get the editor value as a HTML string.
@@ -22,15 +23,16 @@ export default function display(math) {
   }
 
   each(displayed, source => {
-    switch (source.tagName) {
-    case 'MROW':
-    case 'MATH':
+    const tag = lower(source.tagName)
+    switch (tag) {
+    case 'mrow':
+    case 'math':
       if (!source.children.length) {
         source.appendChild(
           MathJax.HTML.Element('mi', { className: 'mje-quote' }, ['?'])
         )
       }
-      if (source.tagName !== 'MATH') {
+      if (tag !== 'math') {
         source.appendChild(mspace())
       }
       break

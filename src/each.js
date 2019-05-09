@@ -1,3 +1,5 @@
+import lower from './lower'
+
 /**
  * Walk through each element within a math element.
  * @param {HTMLElement} source 
@@ -6,8 +8,8 @@
 export default function each(source, handler) {
   const walk = el => {
     const isContainer = (
-      el.tagName === 'MROW'
-      || el.tagName === 'MATH'
+      lower(el.tagName) === 'mrow'
+      || lower(el.tagName) === 'math'
     )
 
     if (!isContainer) {

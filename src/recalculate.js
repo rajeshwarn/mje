@@ -1,4 +1,5 @@
 import each from './each'
+import lower from './lower'
 
 /**
  * Get the viewport coordinates of draw mathematics by MathJax.
@@ -27,6 +28,7 @@ export default function recalculate(math) {
     const has = source.children.length
     const last = element.lastElementChild
     const parent = source.parentNode
+    const tag = lower(source.tagName)
     const rect = bounding(element, source.id)
     let parentElement
     let parentRect
@@ -37,7 +39,7 @@ export default function recalculate(math) {
       previous
     }
 
-    if (parent && source.tagName !== 'MROW') {
+    if (parent && tag !== 'mrow') {
       parentElement = document.getElementById(parent.id)
       parentRect = bounding(parentElement, parent.id)
       data.y = parentRect.top
@@ -48,12 +50,12 @@ export default function recalculate(math) {
       prevData.next = source
     }
 
-    switch (source.tagName) {
-    case 'MATH':
+    switch (lower(tag)) {
+    case 'math':
       data.x = (has ? rect.width : 0) + rect.left
       break
 
-    case 'MROW':
+    case 'mrow':
       data.x = (has ? rect.width - last.clientWidth : 0) + rect.left
       break
 

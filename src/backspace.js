@@ -1,4 +1,5 @@
 import del from './del'
+import lower from './lower'
 
 /**
  * Perform a backspace deletion relative to current cursor position.
@@ -8,20 +9,23 @@ import del from './del'
 export default function backspace(value, current) {
   const parent = current.parentNode
   const previous = current.previousElementSibling
+  const tag = lower(current.tagName)
 
-  switch (current.tagName) {
-  case 'MROW':
-  case 'MATH':
+  switch (tag) {
+  case 'mrow':
+  case 'math':
     if (current.lastElementChild) {
       return del(value, current.lastElementChild)
     }
-    if (current.tagName === 'MATH') {
+    if (tag === 'math') {
       return current
     }
     return del(value, parent)
   }
-  if (!previous && parent.tagName === 'MATH') {
+
+  if (!previous && lower(parent.tagName) === 'math') {
     return current
   }
+console.log('yey')
   return del(value, previous || parent)
 }
