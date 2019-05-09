@@ -1,4 +1,5 @@
 import each from './each'
+import id from './id'
 
 /**
  * Get the editor value as a HTML string.
@@ -6,6 +7,12 @@ import each from './each'
  * @return {String}
  */
 export default function display(math) {
+  each(math, source => {
+    if (!source.id) {
+      source.id = id()
+    }
+  })
+
   const displayed = math.cloneNode(true)
 
   const mspace = () => {
