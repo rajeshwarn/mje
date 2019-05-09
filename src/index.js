@@ -2,7 +2,6 @@ import add from './add'
 import backspace from './backspace'
 import del from './del'
 import display from './display'
-import id from './id'
 import operators from './operators'
 import recalculate from './recalculate'
 import view from './view'
@@ -11,7 +10,7 @@ export default function mje(target) {
   /** @type {Object} Public API of the library. */
   const api = {}
   /** @type {HTMLElement} Value of this instance. */
-  const math = MathJax.HTML.Element('math', { id: id() })
+  const math = MathJax.HTML.Element('math')
   /** Create the user interface of this instance. */
   const ui = view()
 
@@ -74,28 +73,28 @@ export default function mje(target) {
     update(backspace(math, current), math)
   }
 
-  api.number = (n) => {
-    const mn = MathJax.HTML.Element('mn', { id: id() }, [n])
+  api.number = c => {
+    const mn = MathJax.HTML.Element('mn', null, [n])
     add(mn, current)
     update(null, math)
   }
 
-  api.identifier = (c) => {
-    const mi = MathJax.HTML.Element('mi', { id: id() }, [c])
+  api.identifier = c => {
+    const mi = MathJax.HTML.Element('mi', null, [c])
     add(mi, current)
     update(null, math)
   }
 
-  api.operator = (c) => {
-    const mo = MathJax.HTML.Element('mo', { id: id() }, [c])
+  api.operator = c => {
+    const mo = MathJax.HTML.Element('mo', null, [c])
     add(mo, current)
     update(null, math)
   }
 
   api.frac = () => {
-    const mfrac = MathJax.HTML.Element('mfrac', { id: id() })
-    const mrow1 = MathJax.HTML.Element('mrow', { id: id () })
-    const mrow2 = MathJax.HTML.Element('mrow', { id: id() })
+    const mfrac = MathJax.HTML.Element('mfrac')
+    const mrow1 = MathJax.HTML.Element('mrow')
+    const mrow2 = MathJax.HTML.Element('mrow')
     mfrac.appendChild(mrow1)
     mfrac.appendChild(mrow2)
     add(mfrac, current)
@@ -103,17 +102,17 @@ export default function mje(target) {
   }
 
   api.sqrt = () => {
-    const msqrt = MathJax.HTML.Element('msqrt', { id: id() })
-    const mrow = MathJax.HTML.Element('mrow', { id: id() })
+    const msqrt = MathJax.HTML.Element('msqrt')
+    const mrow = MathJax.HTML.Element('mrow')
     msqrt.appendChild(mrow)
     add(msqrt, current)
     update(mrow, math)
   }
 
   api.root = () => {
-    const mroot = MathJax.HTML.Element('mroot', { id: id() })
-    const mrow1 = MathJax.HTML.Element('mrow', { id: id () })
-    const mrow2 = MathJax.HTML.Element('mrow', { id: id() })
+    const mroot = MathJax.HTML.Element('mroot')
+    const mrow1 = MathJax.HTML.Element('mrow')
+    const mrow2 = MathJax.HTML.Element('mrow')
     mroot.appendChild(mrow1)
     mroot.appendChild(mrow2)
     add(mroot, current)
@@ -121,9 +120,9 @@ export default function mje(target) {
   }
 
   api.sup = () => {
-    const msup = MathJax.HTML.Element('msup', { id: id() })
-    const mrow1 = MathJax.HTML.Element('mrow', { id: id () })
-    const mrow2 = MathJax.HTML.Element('mrow', { id: id() })
+    const msup = MathJax.HTML.Element('msup')
+    const mrow1 = MathJax.HTML.Element('mrow')
+    const mrow2 = MathJax.HTML.Element('mrow')
     msup.appendChild(mrow1)
     msup.appendChild(mrow2)
     add(msup, current)
@@ -131,9 +130,9 @@ export default function mje(target) {
   }
 
   api.sub = () => {
-    const msub = MathJax.HTML.Element('msub', { id: id() })
-    const mrow1 = MathJax.HTML.Element('mrow', { id: id () })
-    const mrow2 = MathJax.HTML.Element('mrow', { id: id() })
+    const msub = MathJax.HTML.Element('msub')
+    const mrow1 = MathJax.HTML.Element('mrow')
+    const mrow2 = MathJax.HTML.Element('mrow')
     msub.appendChild(mrow1)
     msub.appendChild(mrow2)
     add(msub, current)
