@@ -7,7 +7,15 @@ import operators from './operators'
 import recalculate from './recalculate'
 import view from './view'
 
+/**
+ * Create a mje instance.
+ * @param {HTMLElement|String} target HTML Element or string selector
+ */
 export default function mje(target) {
+  if (!MathJax) {
+    throw new Error('mje: MathJax not found. Ensure that MathJax is loaded before calling mje.')
+  }
+
   /** @type {Object} Public API of the library. */
   const api = {}
   /** @type {HTMLElement} Value of this instance. */
@@ -229,8 +237,15 @@ export default function mje(target) {
 
   // Initialization flow
 
+  if (typeof target === 'string') {
+    target = document.querySelector(target)
+  }
+  if (!target || !target.parentNode) {
+    throw new Error('mje: target element not found.')
+  }
+
+  target.parentNode.replaceChild(ui.container(), target)
   MathJax.Hub.processSectionDelay = 0
-  target.appendChild(ui.container())
   update(math, math)
 
   return api
