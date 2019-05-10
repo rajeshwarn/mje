@@ -2,7 +2,7 @@ export default function view() {
   /** @type {HTMLElement} */
   const container = MathJax.HTML.Element('div', { className: 'mje-container' })
   /** @type {HTMLElement} */
-  const cursor = MathJax.HTML.Element('div', { className: 'mje-cursor' })
+  const cursor = MathJax.HTML.Element('div', { className: 'mje-cursor hidden' })
   /** @type {HTMLElement} */
   const input = MathJax.HTML.Element('input', { className: 'mje-input' })
 
@@ -10,8 +10,10 @@ export default function view() {
   let jax = null
   /** @type {Boolean} Focus state of the controller. */
   let focused = false
-  /** @type {Boolean} Hover state of the controller */
+  /** @type {Boolean} Hover state of the controller. */
   let hover = false
+  /** @type {Number} Blink interval id. */
+  let blinker = null
   /** @type {Object} Event handlers of the controller. */
   let events = {
     click: null,
@@ -25,9 +27,11 @@ export default function view() {
    */
   const update = () => {
     if (focused) {
+      cursor.classList.remove('hidden')
       container.classList.add('focused')
     }
     else {
+      cursor.classList.add('hidden')
       container.classList.remove('focused')
     }
   }
@@ -105,6 +109,27 @@ export default function view() {
     events.code(e.keyCode)
   }
 
+  /**
+   * Handle cursor blinking.
+   * @return {Void}
+   */
+  const blink = () => {
+    if (focused) {
+      cursor.classList.toggle('hidden')
+    }
+    blinker = setTimeout(blink, 700)
+  }
+
+  /**
+   * Stop shortly the cursor blink.
+   * @return {Void}
+   */
+  const unblink = () => {
+    cursor.classList.remove('hidden')
+    clearTimeout(blinker)
+    blinker = setTimeout(blink, 700)
+  }
+
   document.body.appendChild(cursor)
   document.body.appendChild(input)
 
@@ -116,9 +141,11 @@ export default function view() {
   input.addEventListener('keydown', handleInput)
   input.addEventListener('keyup', handleInput)
   input.addEventListener('keydown', handleKeydown)
+  blinker = setTimeout(blink, 700)
 
   return {
     events,
+    unblink,
 
     /**
      * Get the main container.
@@ -133,6 +160,7 @@ export default function view() {
      * @param {HTMLElement} val 
      */
     value(val) {
+      unblink()
       return new Promise(resolve => {
         if (jax) {
           return jax.Text(val, resolve)

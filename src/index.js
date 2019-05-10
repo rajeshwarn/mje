@@ -41,6 +41,7 @@ export default function mje(target) {
    */
   const update = (to, math) => {
     if (to) {
+      ui.unblink()
       current = to
     }
     if (math) {

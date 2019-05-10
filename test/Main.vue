@@ -45,6 +45,10 @@
     width: 1px;
   }
 
+  .mje-cursor.hidden {
+    display: none;
+  }
+
   .mje-input {
     opacity: 0;
     height: 0;
