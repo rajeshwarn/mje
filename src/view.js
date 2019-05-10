@@ -178,7 +178,7 @@ export default function view() {
      * @param {Object} data 
      */
     draw(data) {
-      console.log(data)
+      if (!data) {return}
       cursor.style.left = `${data.x}px`
       cursor.style.top = `${data.y}px`
       cursor.style.height = `${data.height}px`

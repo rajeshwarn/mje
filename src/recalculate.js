@@ -25,6 +25,7 @@ export default function recalculate(math) {
 
   each(math, source => {
     const element = document.getElementById(source.id)
+    if (!element) {return}
     const has = source.children.length
     const last = element.lastElementChild
     const parent = source.parentNode
