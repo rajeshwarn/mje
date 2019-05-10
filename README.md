@@ -2,7 +2,7 @@
 
 An equation editor on top of MathJax.
 
-**Usage/Documentation:** http://ianlucas.github.io/mathjax-editor
+**Usage/Documentation:** http://ianlucas.github.io/mje
 
 ## Browser Support
 
