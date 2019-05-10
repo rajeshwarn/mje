@@ -166,10 +166,26 @@ export default function view() {
           return jax.Text(val, resolve)
         }
         container.innerHTML = val
-        MathJax.Hub.Queue(['Typeset', MathJax.Hub, container, () => {
-          jax = MathJax.Hub.getAllJax(input)[0]
-          resolve()
-        }])
+        const render = () => {
+          MathJax.Hub.Queue(['Typeset', MathJax.Hub, container, () => {
+            jax = MathJax.Hub.getAllJax(input)[0]
+            resolve()
+          }])
+        }
+        if (MathJax.isReady) {
+          render()
+        }
+        else {
+          // When MathJax first load all its contents, even when it
+          // triggers the "End" event, it may be still rendering
+          // the webfont and markup, so the `recalculate` function
+          // may get wrong size and position values. We add an one
+          // second delay to ensure it will be ready so far.
+          // (still not the perfect solution)
+          MathJax.Hub.Register.StartupHook('End', () => {
+            setTimeout(render, 1000)
+          })
+        }
       })
     },
 
