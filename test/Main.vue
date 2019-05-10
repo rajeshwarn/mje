@@ -53,7 +53,7 @@
     border: none;
   }
 
-  .mje-quote {
+  .mje-placeholder {
     color: #ccc;
   }
 </style>

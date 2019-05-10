@@ -31,7 +31,7 @@ export default function display(math) {
     case 'math':
       if (!source.children.length) {
         source.appendChild(
-          MathJax.HTML.Element('mi', { className: 'mje-quote' }, ['?'])
+          MathJax.HTML.Element('mi', { className: 'mje-placeholder' }, ['?'])
         )
         break
       }
