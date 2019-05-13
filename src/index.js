@@ -187,16 +187,15 @@ export default function mje(target) {
     let smaller = Infinity
     let candidate = null
     for (const data of path) {
-      for (let py = data.y; py < (data.y + data.height); py += 0.1) {
-        const d = Math.sqrt(
-          Math.pow(data.x - x, 2) 
-          + Math.pow(data.y - y, 2)
-        )
-        if (smaller === null || smaller > d) {
-          smaller = d
-          candidate = data
-          break
-        }
+      const p1x = data.x
+      const p1y = data.y
+      const p2x = data.x
+      const p2y = p1y + data.height
+      const n = Math.abs(((p2y - p1y) * x) - ((p2x - p1x) * y) + (p2x * p1y) - (p2y * p1x))
+      const d = n / Math.sqrt(Math.pow(p2y - p1y, 2) + Math.pow(p2x - p1x, 2))
+      if (smaller === null || smaller > d) {
+        smaller = d
+        candidate = data
       }
     }
     if (!candidate || candidate.source === current) {return}
