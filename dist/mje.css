@@ -1,5 +1,6 @@
 .mje-container {
   border: 1px solid #ccc;
+  cursor: text;
   padding: 1em;
 }
 
