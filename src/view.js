@@ -1,11 +1,13 @@
 export default function view() {
   /** @type {HTMLElement} */
+  const wrapper = MathJax.HTML.Element('div', { className: 'mje-wrapper' })
+  /** @type {HTMLElement} */
   const container = MathJax.HTML.Element('div', { className: 'mje-container' })
   /** @type {HTMLElement} */
   const cursor = MathJax.HTML.Element('div', { className: 'mje-cursor hidden' })
   /** @type {HTMLElement} */
   const input = MathJax.HTML.Element('input', { className: 'mje-input' })
-
+  
   /** @type {Object} MathJax's Jax element. */
   let jax = null
   /** @type {Boolean} Focus state of the controller. */
@@ -18,7 +20,8 @@ export default function view() {
   let events = {
     click: null,
     input: null,
-    code: null
+    code: null,
+    scroll: null
   }
   
   /**
@@ -41,7 +44,6 @@ export default function view() {
    * @return {Void}
    */
   const handleOutsideClick = () => {
-    console.log(hover)
     if (!hover) {
       focused = false
       input.blur()
@@ -55,6 +57,7 @@ export default function view() {
    * @return {Void}
    */
   const handleInsideClick = e => {
+    if (!focused) {events.scroll()}
     focused = true
     events.click(e.clientX, e.clientY)
     input.focus()
@@ -110,6 +113,15 @@ export default function view() {
   }
 
   /**
+   * Handle scroll event.
+   * @return {Void}
+   */
+  const handleScroll = () => {
+    if (!focused) {return}
+    events.scroll()
+  }
+
+  /**
    * Handle cursor blinking.
    * @return {Void}
    */
@@ -125,13 +137,15 @@ export default function view() {
    * @return {Void}
    */
   const unblink = () => {
+    if (!focused) {return}
     cursor.classList.remove('hidden')
     clearTimeout(blinker)
     blinker = setTimeout(blink, 700)
   }
 
-  document.body.appendChild(cursor)
-  document.body.appendChild(input)
+  wrapper.appendChild(container)
+  wrapper.appendChild(cursor)
+  wrapper.appendChild(input)
 
   document.addEventListener('click', handleOutsideClick)
   container.addEventListener('click', handleInsideClick)
@@ -141,6 +155,7 @@ export default function view() {
   input.addEventListener('keydown', handleInput)
   input.addEventListener('keyup', handleInput)
   input.addEventListener('keydown', handleKeydown)
+  window.addEventListener('scroll', handleScroll)
   blinker = setTimeout(blink, 700)
 
   return {
@@ -148,11 +163,11 @@ export default function view() {
     unblink,
 
     /**
-     * Get the main container.
+     * Get the main wrapper.
      * @return {HTMLElement}
      */
-    container() {
-      return container
+    wrapper() {
+      return wrapper
     },
 
     /**
@@ -198,6 +213,8 @@ export default function view() {
       cursor.style.left = `${data.x}px`
       cursor.style.top = `${data.y}px`
       cursor.style.height = `${data.height}px`
+      input.style.left = `${data.x}px`
+      input.style.top = `${data.y}px`
     }
   }
 }

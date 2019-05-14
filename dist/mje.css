@@ -8,7 +8,7 @@
 
 .mje-cursor {
   background-color: #000;
-  position: absolute;
+  position: fixed;
   width: 1px;
 }
 
@@ -17,11 +17,12 @@
 }
 
 .mje-input {
-  opacity: 0;
-  height: 0;
-  width: 0;
-  padding: 0;
   border: none;
+  height: 0;
+  opacity: 0;
+  padding: 0;
+  position: fixed;
+  width: 0;
 }
 
 .mje-placeholder {

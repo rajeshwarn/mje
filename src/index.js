@@ -267,6 +267,12 @@ export default function mje(target) {
     }
   }
 
+  ui.events.scroll = () => {
+    console.log('recalculate')
+    path = recalculate(math)
+    update(current)
+  }
+
   // Initialization flow
 
   if (typeof target === 'string') {
@@ -276,7 +282,7 @@ export default function mje(target) {
     throw new Error('mje: target element not found.')
   }
 
-  target.parentNode.replaceChild(ui.container(), target)
+  target.parentNode.replaceChild(ui.wrapper(), target)
   MathJax.Hub.processSectionDelay = 0
   update(math, math)
 
