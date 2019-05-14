@@ -80,6 +80,10 @@ export default function mje(target) {
   }
 
   // API functions
+
+  api.raw = () => {
+    return math
+  }
   
   api.path = () => {
     return path
