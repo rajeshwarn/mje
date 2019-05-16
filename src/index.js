@@ -226,11 +226,9 @@ export default function mje(target) {
     for (const data of path) {
       const p1x = data.x
       const p1y = data.y
-      const p2x = data.x
       const p2y = p1y + data.height
-      const n = Math.abs(((p2y - p1y) * x) - ((p2x - p1x) * y) + (p2x * p1y) - (p2y * p1x))
-      const d = n / Math.sqrt(Math.pow(p2y - p1y, 2) + Math.pow(p2x - p1x, 2))
-      if (smaller === null || smaller > d) {
+      const d = Math.abs(p1x - x)
+      if (p1y <= y && y <= p2y && smaller > d) {
         smaller = d
         candidate = data
       }
