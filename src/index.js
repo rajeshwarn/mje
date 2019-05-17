@@ -31,6 +31,8 @@ export default function mje(target) {
   let path = null
   /** @type {Boolean} */
   let readonly = false
+  /** @type {Array} Tags allowed to be inserted. */
+  let allowedTags = []
 
   /**
    * Draw the cursor in the viewport.
@@ -65,10 +67,12 @@ export default function mje(target) {
 
   /**
    * Check whether it is possible to input a change in the value.
+   * @param {HTMLElement} el
    * @return {Boolean}
    */
-  const canInput = () => {
+  const canInput = tag => {
     if (!readonly) {return true}
+    if (tag && allowedTags.length && allowedTags.indexOf(tag) === -1) {return false}
     let curr = current
     while (curr) {
       if (curr.hasAttribute('editable')) {
@@ -108,28 +112,28 @@ export default function mje(target) {
   }
 
   api.number = n => {
-    if (!canInput()) {return} 
+    if (!canInput('mn')) {return} 
     const mn = MathJax.HTML.Element('mn', null, [n])
     add(mn, current)
     update(null, math)
   }
 
   api.identifier = c => {
-    if (!canInput()) {return} 
+    if (!canInput('mi')) {return} 
     const mi = MathJax.HTML.Element('mi', null, [c])
     add(mi, current)
     update(null, math)
   }
 
   api.operator = c => {
-    if (!canInput()) {return} 
+    if (!canInput('mo')) {return} 
     const mo = MathJax.HTML.Element('mo', null, [c])
     add(mo, current)
     update(null, math)
   }
 
   api.frac = () => {
-    if (!canInput()) {return} 
+    if (!canInput('mfrac')) {return} 
     const mfrac = MathJax.HTML.Element('mfrac')
     const mrow1 = MathJax.HTML.Element('mrow')
     const mrow2 = MathJax.HTML.Element('mrow')
@@ -140,7 +144,7 @@ export default function mje(target) {
   }
 
   api.sqrt = () => {
-    if (!canInput()) {return} 
+    if (!canInput('msqrt')) {return} 
     const msqrt = MathJax.HTML.Element('msqrt')
     const mrow = MathJax.HTML.Element('mrow')
     msqrt.appendChild(mrow)
@@ -149,7 +153,7 @@ export default function mje(target) {
   }
 
   api.root = () => {
-    if (!canInput()) {return} 
+    if (!canInput('mroot')) {return} 
     const mroot = MathJax.HTML.Element('mroot')
     const mrow1 = MathJax.HTML.Element('mrow')
     const mrow2 = MathJax.HTML.Element('mrow')
@@ -160,7 +164,7 @@ export default function mje(target) {
   }
 
   api.sup = () => {
-    if (!canInput()) {return} 
+    if (!canInput('msup')) {return} 
     const msup = MathJax.HTML.Element('msup')
     const mrow1 = MathJax.HTML.Element('mrow')
     const mrow2 = MathJax.HTML.Element('mrow')
@@ -171,7 +175,7 @@ export default function mje(target) {
   }
 
   api.sub = () => {
-    if (!canInput()) {return} 
+    if (!canInput('msub')) {return} 
     const msub = MathJax.HTML.Element('msub')
     const mrow1 = MathJax.HTML.Element('mrow')
     const mrow2 = MathJax.HTML.Element('mrow')
@@ -182,7 +186,7 @@ export default function mje(target) {
   }
 
   api.subsup = () => {
-    if (!canInput()) {return} 
+    if (!canInput('msubsup')) {return} 
     const msubsup = MathJax.HTML.Element('msubsup')
     const mrow1 = MathJax.HTML.Element('mrow')
     const mrow2 = MathJax.HTML.Element('mrow')
@@ -210,6 +214,10 @@ export default function mje(target) {
 
   api.readonly = val => {
     readonly = val
+  }
+
+  api.allowedTags = val => {
+    allowedTags = val
   }
 
   // UI functions
