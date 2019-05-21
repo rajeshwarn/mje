@@ -17,9 +17,10 @@ export default function each(source, handler) {
     }
 
     if (el.children) {
-      const len = el.children.length
-      for (let i = 0; i < len; i++) {
-        walk(el.children[i])
+      let child = el.firstElementChild
+      while (child) {
+        walk(child)
+        child = child.nextElementSibling
       }
     }
 

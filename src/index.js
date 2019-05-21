@@ -33,6 +33,8 @@ export default function mje(target) {
   let readonly = false
   /** @type {Array} Tags allowed to be inserted. */
   let allowedTags = []
+  /** @type {Boolean} Allow newline insertion. */
+  let allowNewline = false 
 
   /**
    * Draw the cursor in the viewport.
@@ -109,6 +111,16 @@ export default function mje(target) {
   api.backspace = () => {
     if (!canInput()) {return} 
     update(backspace(math, current), math)
+  }
+
+  api.newline = () => {
+    if (!allowNewline) {return}
+    if (!canInput()) {return}
+    if (current.parentNode !== math && current !== math) {return}
+    const mspace = MathJax.HTML.Element('mspace')
+    mspace.setAttribute('linebreak', 'newline')
+    add(mspace, current)
+    update(null, math)
   }
 
   api.number = n => {
@@ -220,6 +232,10 @@ export default function mje(target) {
     allowedTags = val
   }
 
+  api.allowNewline = val => {
+    allowNewline = val
+  }
+
   // UI functions
 
   /**
@@ -268,9 +284,9 @@ export default function mje(target) {
    * @return {Void}
    */
   ui.events.code = (code) => {
-    console.log(code)
     switch (code) {
     case 8: return api.backspace()
+    case 13: return api.newline()
     case 37: return api.left()
     case 39: return api.right()
     case 46: return api.del()
@@ -278,7 +294,6 @@ export default function mje(target) {
   }
 
   ui.events.scroll = () => {
-    console.log('recalculate')
     path = recalculate(math)
     update(current)
   }

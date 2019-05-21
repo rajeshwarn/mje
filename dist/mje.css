@@ -28,3 +28,7 @@
 .mje-placeholder {
   color: #ccc;
 }
+
+.mje-newline {
+  opacity: 0;
+}

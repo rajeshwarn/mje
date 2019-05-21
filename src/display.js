@@ -1,6 +1,7 @@
 import each from './each'
 import id from './id'
 import lower from './lower'
+import newline from './newline'
 
 const skip = ['mo', 'mi', 'mn', 'mspace'] 
 
@@ -24,15 +25,40 @@ export default function display(math) {
     return el
   }
 
+  const mnewline = () => {
+    return MathJax.HTML.Element('mo', { className: 'mje-newline' }, ['⏎'])
+  }
+
+  const mplaceholder = () => {
+    return MathJax.HTML.Element('mi', { className: 'mje-placeholder' }, ['?'])
+  }
+
   each(displayed, source => {
     const tag = lower(source.tagName)
     switch (tag) {
+    case 'mspace':
+      if (!source.id) {break}
+      if (!newline(source)) {break}
+      const next = source.nextElementSibling || displayed.lastElementChild
+      const prev = displayed.firstChild
+      let addNewlinePlaceholder = (next === source)
+      if (next && lower(next.tagName) === 'mspace') {
+        if (newline(next)) {
+          addNewlinePlaceholder = true
+        }
+      }
+      if (addNewlinePlaceholder) {
+        source.parentNode.insertBefore(mnewline(), source.nextSibling)
+      }
+      if (prev === source) {
+        source.parentNode.insertBefore(mnewline(), source)
+      }
+      break
+
     case 'mrow':
     case 'math':
       if (!source.children.length) {
-        source.appendChild(
-          MathJax.HTML.Element('mi', { className: 'mje-placeholder' }, ['?'])
-        )
+        source.appendChild(mplaceholder())
         break
       }
       if (tag !== 'math') {
@@ -42,7 +68,6 @@ export default function display(math) {
       break
     default:
       if (skip.indexOf(tag) === -1) {
-        console.log(tag)
         source.parentNode.insertBefore(mspace(), source.nextSibling)
       }
     }
