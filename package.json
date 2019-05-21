@@ -1,0 +1,23 @@
+{
+  "name": "mje",
+  "version": "1.0.0",
+  "description": "An equation editor on top of MathJax.",
+  "main": "dist/mje.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ianlucas/mje.git"
+  },
+  "keywords": [
+    "math",
+    "MathJax",
+    "editor",
+    "equation",
+    "wysiwyg"
+  ],
+  "author": "Ian Lucas <ianlucas_ferreira@hotmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ianlucas/mje/issues"
+  },
+  "homepage": "https://github.com/ianlucas/mje#readme"
+}

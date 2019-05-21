@@ -16,6 +16,8 @@ export default function mje(target) {
     throw new Error('mje: MathJax not found. Ensure that MathJax is loaded before calling mje.')
   }
 
+  /** @type {String} Version of the library. */
+  const version = '1.0.0'
   /** @type {Object} Public API of the library. */
   const api = {}
   /** @type {HTMLElement} Value of this instance. */
@@ -87,13 +89,11 @@ export default function mje(target) {
 
   // API functions
 
-  api.raw = () => {
-    return math
-  }
-  
-  api.path = () => {
-    return path
-  }
+  api.raw = () => math
+
+  api.path = () => path
+
+  api.version = () => version
 
   api.right = () => {
     update(pos.next)
