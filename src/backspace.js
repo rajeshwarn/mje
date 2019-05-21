@@ -27,6 +27,6 @@ export default function backspace(value, current) {
   if (!previous && lower(parent.tagName) === 'math') {
     return current
   }
-console.log('yey')
+
   return del(value, previous || parent, current)
 }
