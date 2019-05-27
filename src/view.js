@@ -20,8 +20,7 @@ export default function view() {
   let events = {
     click: null,
     input: null,
-    code: null,
-    scroll: null
+    code: null
   }
   
   /**
@@ -57,9 +56,8 @@ export default function view() {
    * @return {Void}
    */
   const handleInsideClick = e => {
-    if (!focused) {events.scroll()}
     focused = true
-    events.click(e.clientX, e.clientY)
+    events.click(e.clientX, e.clientY + window.pageYOffset)
     input.focus()
     update()
   }
@@ -113,15 +111,6 @@ export default function view() {
   }
 
   /**
-   * Handle scroll event.
-   * @return {Void}
-   */
-  const handleScroll = () => {
-    if (!focused) {return}
-    events.scroll()
-  }
-
-  /**
    * Handle cursor blinking.
    * @return {Void}
    */
@@ -155,7 +144,6 @@ export default function view() {
   input.addEventListener('keydown', handleInput)
   input.addEventListener('keyup', handleInput)
   input.addEventListener('keydown', handleKeydown)
-  window.addEventListener('scroll', handleScroll)
   blinker = setTimeout(blink, 700)
 
   return {

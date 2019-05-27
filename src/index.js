@@ -293,11 +293,6 @@ export default function mje(target) {
     }
   }
 
-  ui.events.scroll = () => {
-    path = recalculate(math)
-    update(current)
-  }
-
   // Initialization flow
 
   if (typeof target === 'string') {

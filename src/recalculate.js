@@ -25,7 +25,9 @@ export default function recalculate(math) {
   const bounding = (element, id) => {
     if (!element) {return}
     if (!cache.hasOwnProperty(id)) {
-      cache[id] = element.getBoundingClientRect()
+      const bounding = element.getBoundingClientRect()
+      bounding.y += window.pageYOffset
+      cache[id] = bounding
     }
     return cache[id]
   }
